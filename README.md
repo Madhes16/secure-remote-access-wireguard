@@ -81,7 +81,7 @@ sudo systemctl enable wg-quick@wg0
 
 This diagram shows the WireGuard VPN tunnel between the remote client and private server.
 
-![WireGuard VPN Diagram](Wireguard Diagram.png)
+![WireGuard VPN Diagram](Wireguard%20Diagram.png)
 
 ## 🧪 Testing
 
