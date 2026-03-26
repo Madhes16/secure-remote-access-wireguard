@@ -66,6 +66,14 @@ AllowedIPs = 10.0.0.2/32
 sudo nano /etc/sysctl.conf
 net.ipv4.ip_forward=1
 ```
+## Firewall Rules using UFW
+
+```bash
+sudo ufw allow 51820/udp
+sudo ufw enable
+sudo ufw status
+```
+WireGuard uses UDP port 51820 for fast and low-overhead communication.
 
 ### Step 5 — Start WireGuard
 
@@ -85,6 +93,10 @@ Endpoint = <server-ip>:51820
 AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 ```
+### AllowedIPs Explanation
+
+- 0.0.0.0/0 → routes all traffic through VPN (full tunnel)
+- 10.0.0.0/24 → routes only internal traffic (split tunnel)
 
 ## 🔐 Security Features
 - Encrypted VPN Tunnel
@@ -94,6 +106,9 @@ PersistentKeepalive = 25
 ## 🌐 Network Diagram
 
 This diagram shows the WireGuard VPN tunnel between the remote client and private server.
+- Client Tunnel Interface: wg0 (10.0.0.2)
+- Server Tunnel Interface: wg0 (10.0.0.1)
+- Public Interface: eth0
 
 ![WireGuard VPN Diagram](Wireguard%20Diagram.png)
 
@@ -104,6 +119,7 @@ Verified connection using:
 ```bash
 ping 10.0.0.1
 wg show
+curl ifconfig.me
 ```
 ## 🔄 Traffic Flow
 
