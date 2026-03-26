@@ -52,6 +52,8 @@ Example `/etc/wireguard/wg0.conf`
 Address = 10.0.0.1/24
 ListenPort = 51820
 PrivateKey = SERVER_PRIVATE_KEY
+PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 [Peer]
 PublicKey = CLIENT_PUBLIC_KEY
@@ -70,6 +72,18 @@ net.ipv4.ip_forward=1
 ```bash
 sudo wg-quick up wg0
 sudo systemctl enable wg-quick@wg0
+```
+## Client Config
+```bash
+[Interface]
+Address = 10.0.0.2/24
+PrivateKey = CLIENT_PRIVATE_KEY
+
+[Peer]
+PublicKey = SERVER_PUBLIC_KEY
+Endpoint = <server-ip>:51820
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25
 ```
 
 ## 🔐 Security Features
@@ -91,10 +105,21 @@ Verified connection using:
 ping 10.0.0.1
 wg show
 ```
+## 🔄 Traffic Flow
 
-## 📷 Screenshots
+1. Client sends traffic to VPN IP (10.0.0.1)
+2. Traffic is encrypted using WireGuard
+3. Server decrypts and routes traffic
+4. NAT (MASQUERADE) allows access to internet/private network
+5. Response is sent back through tunnel
 
-(Add screenshots)
+## Troubleshooting
+
+- Handshake not working → check UDP port open
+- No internet → check NAT (MASQUERADE)
+- Cannot ping → verify AllowedIPs
+- Check logs:
+  sudo journalctl -u wg-quick@wg0
 
 ## 📚 Learning Outcome
 
