@@ -77,8 +77,13 @@ sudo systemctl enable wg-quick@wg0
 - Private Key Authentication
 - Firewall Rules using UFW
 
+## 🌐 Network Diagram
 
-##  Testing
+This diagram shows the WireGuard VPN tunnel between the remote client and private server.
+
+![WireGuard VPN Diagram](Wireguard Diagram.png)
+
+## 🧪 Testing
 
 Verified connection using:
 
@@ -87,15 +92,18 @@ ping 10.0.0.1
 wg show
 ```
 
+## 📷 Screenshots
 
-##  Learning Outcome
+(Add screenshots)
+
+## 📚 Learning Outcome
 
 - Learned VPN tunneling concepts
 - Implemented secure remote access
 - Configured firewall and routing
 - Understood public/private key encryption
 
-## Future Improvements
+## 🚀 Future Improvements
 
 - Add multiple clients
 - Deploy on AWS EC2
